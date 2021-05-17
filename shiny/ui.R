@@ -12,11 +12,14 @@ shinyUI(
             
             selectInput(
                 "market", "Choose a market:", 
-                c("Iquique - Alto Hospicio",
-                  "Coquimbo - La Serena", 
-                  "Rancagua",
-                  "Puerto Montt", 
-                  "Punta Arenas"),
+                c("Santiago", 
+                "Concepción", 
+                "Valparaíso - Viña", 
+                "Iquique - Alto Hospicio",
+                "Coquimbo - La Serena",
+                "Rancagua",
+                "Puerto Montt",
+                "Punta Arenas"),
                 selected = "Coquimbo - La Serena"
             ), 
             
@@ -66,12 +69,11 @@ shinyUI(
                                 choices = c("Mean", "Median"), 
                                 selected = "Mean"
                             )
-                        ), 
+                        )
+                    ),
                         
-                        hr(), 
-                        
-                        plotOutput("plotSimce")
-                    )
+                    hr(), 
+                    plotOutput("plotSimce")
                 ), 
                 
                 tabPanel(
@@ -90,9 +92,15 @@ shinyUI(
                     plotOutput("plotSegregation")
                     
                 )
+            ), 
+            fluidRow(
+                tags$b("Using data from:"), 
+                textOutput("counties")
             )
         )
-    ),
+    ), 
+    
+
     
     tabPanel(
         "Technical notes", 
@@ -102,10 +110,18 @@ shinyUI(
         tags$ul(
             tags$li("Our main data set is built using 4 sources of information:"), 
             tags$ol(
-                tags$li(tags$em("Matricula por estudiante,"), "available at: ", tags$a("http://datos.mineduc.cl/dashboards/19776/descarga-bases-de-datos-de-matricula-por-estudiante/")), 
-                tags$li(tags$em("Prioritarios y preferentes,"), "available at: ", tags$a("http://datos.mineduc.cl/dashboards/19939/bases-de-datos-alumnos-prioritarios/")),
-                tags$li(tags$em("Oferta establecimientos SAE 2020,"), "available at: ", tags$a("http://datos.mineduc.cl/dashboards/20514/descarga-bases-de-datos-de-los-proceso-de-admision-escolar-anos-2016-y-2017/")),
-                tags$li(tags$em("SIMCE Scores,"), "available at:" , tags$a("https://informacionestadistica.agenciaeducacion.cl/#/bases"))
+                tags$li(tags$em("Matricula por estudiante,"), "available at: ", 
+                        tags$a("http://datos.mineduc.cl/dashboards/19776/descarga-bases-de-datos-de-matricula-por-estudiante/",
+                               href = "http://datos.mineduc.cl/dashboards/19776/descarga-bases-de-datos-de-matricula-por-estudiante/")), 
+                tags$li(tags$em("Prioritarios y preferentes,"), "available at: ", 
+                        tags$a("http://datos.mineduc.cl/dashboards/19939/bases-de-datos-alumnos-prioritarios/",
+                               href = "http://datos.mineduc.cl/dashboards/19939/bases-de-datos-alumnos-prioritarios/")),
+                tags$li(tags$em("Oferta establecimientos SAE 2020,"), "available at: ", 
+                        tags$a("http://datos.mineduc.cl/dashboards/20514/descarga-bases-de-datos-de-los-proceso-de-admision-escolar-anos-2016-y-2017/",
+                               href = "http://datos.mineduc.cl/dashboards/20514/descarga-bases-de-datos-de-los-proceso-de-admision-escolar-anos-2016-y-2017/")),
+                tags$li(tags$em("SIMCE 2016 Scores,"), "available at:" , 
+                        tags$a("https://informacionestadistica.agenciaeducacion.cl/#/bases", 
+                               href = "https://informacionestadistica.agenciaeducacion.cl/#/bases"))
                 ), 
             
             br(), 
@@ -115,7 +131,7 @@ shinyUI(
             tags$li("We only consider schools that participated in SAE 2020 (can be found in at least one of SAE's files)."), 
             
             br(), 
-            tags$li("For the SIMCE charts, we also restrict our set of schools to those having a valid SIMCE score in the corresponding year (noaplica == 0 or noaplica == 'Rbd y curso rinde Simce').")
+            tags$li("For the SIMCE charts, we also restrict our set of schools to those having a valid SIMCE score during 2016 (noaplica == 0 or noaplica == 'Rbd y curso rinde Simce').")
             )
         )
     )

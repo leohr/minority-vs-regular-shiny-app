@@ -44,4 +44,11 @@ shinyServer(function(input, output, session) {
                              index = input$segregationIndex, 
                              SaeYear = getSaeYear_from_market(input$market))
     })
+    
+    counties <- eventReactive(
+        input$filterButton, 
+        getNomComs_from_market(input$market, counties.df)
+    )
+    
+    output$counties <- renderText({counties()})
 })
